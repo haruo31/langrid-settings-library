@@ -1,9 +1,11 @@
 <?php
 namespace LangridSettingClient\API\Langrid;
 
-require dirname(__FILE__) . '/../../lib/dol-monitor-service/lib/langrid-php-library/MultiLanguageStudio.php';
+use \LangridSettingClient\API as API;
 
-class LangridTranslator implements \LangridSettingClient\API\Translator {
+require_once dirname(__FILE__) . '/../../lib/dol-monitor-service/lib/langrid-php-library/MultiLanguageStudio.php';
+
+class LangridTranslator implements API\Translator {
     var $setting;
     var $uri;
     var $user;

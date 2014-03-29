@@ -4,22 +4,28 @@ namespace LangridSettingClient\Configurator;
 abstract class GroupConfig {
     var $groupName;
 
-    abstract protected function getGroupConfig($groupName);
-    abstract protected function getSetting($settingName);
+    public abstract function getGroupConfig();
+    abstract function getSetting($settingName);
     abstract protected function getTranslationPathSetting($from, $to, $setting);
 
     public function __construct($groupName) {
         $this->groupName = $groupName;
     }
 
+    public function getGroupName() {
+        return $this->groupName;
+    }
+
+    public function getAllSetting() {
+        return $this->getGroupConfig()->settings;
+    }
+
     public function getAvailableSetting($specificName = null) {
-        $groupConf = $this->getGroupConfig($this->groupName);
-
-        // TODO: insert dead service detection behavior
-
         $srv = 0;
+        $settings = $this->getAllSetting();
+
         if ($specificName != null) {
-            $srv = array_search($specificName, $groupConf->settings);
+            $srv = array_search($specificName, $settings);
         }
 
         return $this->getSetting($groupConf->settings[$srv]);

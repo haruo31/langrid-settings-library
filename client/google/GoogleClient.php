@@ -1,7 +1,9 @@
 <?php
-namespace LangridSettingClient\Google;
+namespace LangridSettingClient\Client\Google;
 
-class GoogleClient implements LangridSettingClient\Client{
+use \LangridSettingClient\API\Google as API;
+
+class GoogleClient {
     var $setting;
 
     public function __construct($setting) {
@@ -9,6 +11,6 @@ class GoogleClient implements LangridSettingClient\Client{
     }
 
     public function getTranslator() {
-        return new GoogleTranslator($this->setting);
+        return new API\GoogleTranslator($this->setting);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 namespace LangridSettingClient\API\Google;
 
-class GoogleTranslator implements Translator {
+use LangridSettingClient\API as API;
+
+class GoogleTranslator implements API\Translator {
     var $setting;
     var $response;
 
@@ -13,7 +15,7 @@ class GoogleTranslator implements Translator {
 
         $res = json_decode($this->sendRequest($from, $to, $text), true);
         if (@$res['error']) {
-            throw new GoogleTranslationException($res['error']['message']);
+            throw new API\Exception\ApiException($res['error']['message']);
         }
 
         return @$res['data']['translations']['translatedText'];
@@ -27,13 +29,13 @@ class GoogleTranslator implements Translator {
         curl_setopt_array($s,
             array(
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_0,
-                CURLOPT_URL => $this->setting['url'],
+                CURLOPT_URL => $this->setting->url,
                 CURLOPT_POST => true,
                 CURLOPT_WRITEFUNCTION => array($this, 'curlResponseReader'),
                 CURLOPT_HTTPHEADER => array('X-HTTP-Method-Override: GET'),
                 CURLOPT_POSTFIELDS => $this->buildParameters(
                         array(
-                            'key' => $this->setting['apiKey'],
+                            'key' => $this->setting->apiKey,
                             'source' => $from,
                             'target' => $to,
                             'q' => $text))));

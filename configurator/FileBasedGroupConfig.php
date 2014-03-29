@@ -7,18 +7,21 @@ if (! defined('CONFIG_ROOT')) {
 }
 
 class FileBasedGroupConfig extends GroupConfig {
-    protected function getGroupConfig($groupName) {
+    var $groupConfig = NULL;
 
-        $res = file_get_contents(CONFIG_ROOT . "/" .
-                                 $groupName . ".group.json");
-        if ($res !== FALSE) {
-            return json_decode($res);
+    function getGroupConfig() {
+        $groupName = $this->getGroupName();
+        if ($this->groupConfig === NULL) {
+            $res = file_get_contents(CONFIG_ROOT . "/" . $groupName . ".group.json");
+            if ($res !== FALSE) {
+                $this->groupConfig = json_decode($res);
+            }
         }
 
-        return FALSE;
+        return $this->groupConfig;
     }
 
-    protected function getSetting($settingName) {
+    function getSetting($settingName) {
         $res = file_get_contents(CONFIG_ROOT . "/" .
                                  $settingName . ".settings.json");
         if ($res !== FALSE) {

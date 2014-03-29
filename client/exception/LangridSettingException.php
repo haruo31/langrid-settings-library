@@ -1,5 +1,5 @@
 <?php
-namespace LangridSettingClient\Client\Excpetion;
+namespace LangridSettingClient\Client\Exception;
 
 
 class LangridSettingException extends \Exception {

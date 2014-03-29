@@ -1,0 +1,36 @@
+<?php
+namespace LangridSettingClient\Configurator;
+
+use \LangridSettingClient\Client as Cli;
+
+abstract class Configurator {
+    const CONFIGURATOR_WITH_MONITOR = 'ConfiguratorWithMonitor';
+    // static const CONFIGURATOR_WITH_FOO = '';
+
+    var $config;
+    public function __construct(GroupConfig $config) {
+        $this->config = $config;
+    }
+
+    public static function getInstance($type, GroupConfig $config) {
+        if ($type === self::CONFIGURATOR_WITH_MONITOR) {
+            return new ConfiguratorWithMonitor($config);
+        }
+        return NULL;
+    }
+
+    public abstract function getAllSetting();
+    public abstract function getAvailableSetting();
+
+    public function selectConfig() {
+        $conf = $this->getAvailableConfig();
+        if (is_array($conf)) {
+            return $conf[0];
+        }
+        return $conf;
+    }
+
+    public function getClient() {
+        return Cli\ClientFactory::getClient($this->config->getSetting($this->getAvailableSetting()));
+    }
+}
