@@ -1,0 +1,153 @@
+{
+    "type": "langrid",
+    "compositeServices": {
+        "TwoHopTranslation": "kyoto1.langrid:TwoHopTranslation",
+        "Translation": "kyoto1.langrid:TranslationCombinedWithBilingualDictionary",
+        "BackTranslation": "kyoto1.langrid:TaggedBackTranslationCombinedWithBilingualDictionaryWithLongestMatchSearch"
+    },
+    "user": "YOURID",
+    "password": "YOURPASS",
+    "uri": "http://langrid.org/service_manager/wsdl/{service_id}",
+    "paths": [
+        {
+            "source_lang": "ja",
+            "target_lang": "en",
+            "exec":[
+                {
+                    "source_lang": "ja",
+                    "target_lang": "en",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:KyotoUJServer",
+                    "dictionary_flag": 1,
+                    "bind":[
+                        {"bind_type": 3, "bind_value":"VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3, "bind_value":"YMCCommunityDictionary"},
+                        {"bind_type": 3, "bind_value":"YMCViet Activity Dictionary"},
+                        {"bind_type": 9, "bind_value":"Mecab"}
+                    ]
+                }
+            ]
+        },
+        {
+            "source_lang": "en",
+            "target_lang": "ja",
+            "exec":[
+                {
+                    "source_lang": "en",
+                    "target_lang": "ja",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:KyotoUJServer",
+                    "dictionary_flag": 1,
+                    "bind":[
+                        {"bind_type": 3, "bind_value": "VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3, "bind_value": "YMCCommunityDictionary"},
+                        {"bind_type": 3, "bind_value": "YMCViet Activity Dictionary"},
+                        {"bind_type": 9, "bind_value": "TreeTagger"}
+                    ]
+                }
+            ]
+        },
+        {
+            "source_lang": "ja",
+            "target_lang": "vi",
+            "exec": [
+                {
+                    "source_lang": "ja",
+                    "target_lang": "en",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:KyotoUJServer",
+                    "dictionary_flag": 1,
+                    "bind": [
+                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
+                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
+                        {"bind_type": 9,"bind_value": "Mecab"}
+                    ]
+                },
+                {
+                    "source_lang": "en",
+                    "target_lang": "vi",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:GoogleTranslate",
+                    "dictionary_flag": 1,
+                    "bind": [
+                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
+                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
+                        {"bind_type": 9,"bind_value": "TreeTagger"}
+                    ]
+                }
+            ]
+        },
+        {
+            "source_lang": "vi",
+            "target_lang": "ja",
+            "exec": [
+                {
+                    "source_lang": "vi",
+                    "target_lang": "en",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:GoogleTranslate",
+                    "dictionary_flag": 1,
+                    "bind": [
+                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
+                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
+                        {"bind_type": 9,"bind_value": "VLSPPOSTaggerService"}
+                    ]
+                },
+                {
+                    "source_lang": "en",
+                    "target_lang": "ja",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:KyotoUJServer",
+                    "dictionary_flag": 1,
+                    "bind": [
+                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
+                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
+                        {"bind_type": 9,"bind_value": "TreeTagger"}
+                    ]
+                }
+            ]
+        },
+        {
+            "source_lang": "en",
+            "target_lang": "vi",
+            "exec": [
+                {
+                    "source_lang": "en",
+                    "target_lang": "vi",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:GoogleTranslate",
+                    "dictionary_flag": 1,
+                    "bind": [
+                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
+                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
+                        {"bind_type": 9,"bind_value": "TreeTagger"}
+                    ]
+                }
+            ]
+        },
+        {
+            "source_lang": "vi",
+            "target_lang": "en",
+            "exec": [
+                {
+                    "source_lang": "vi",
+                    "target_lang": "en",
+                    "service_type": "0",
+                    "service_id": "kyoto1.langrid:GoogleTranslate",
+                    "dictionary_flag": 1,
+                    "bind": [
+                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
+                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
+                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
+                        {"bind_type": 9,"bind_value": "VLSPPOSTaggerService"}
+                    ]
+                }
+            ]
+        }
+    ]
+}
