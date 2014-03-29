@@ -1,0 +1,3 @@
+[submodule "lib/dol-monitor-service"]
+	path = lib/dol-monitor-service
+	url = git@github.com:haruo31/dol-monitor-service.git
