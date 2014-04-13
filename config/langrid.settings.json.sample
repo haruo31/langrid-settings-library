@@ -1,152 +1,209 @@
 {
     "type": "langrid",
     "compositeServices": {
-        "TwoHopTranslation": "kyoto1.langrid:TwoHopTranslation",
-        "Translation": "kyoto1.langrid:TranslationCombinedWithBilingualDictionary",
-        "BackTranslation": "kyoto1.langrid:TaggedBackTranslationCombinedWithBilingualDictionaryWithLongestMatchSearch"
+        "translation": {
+            "serviceId":
+            "kyoto1.langrid:TranslationCombinedWithBilingualDictionaryWithLongestMatchSearch",
+            "translationBinds": ["TranslationPL"]
+        },
+        "backTranslation": {
+            "serviceId": "kyoto1.langrid:BackTranslationCombinedWithBilingualDictionaryWithLongestMatchSearch",
+            "translationBinds": ["ForwardTranslationPL", "BackwardTranslationPL"]
+        }
     },
     "user": "YOURID",
     "password": "YOURPASS",
     "uri": "http://langrid.org/service_manager/wsdl/{service_id}",
     "paths": [
         {
-            "source_lang": "ja",
-            "target_lang": "en",
-            "exec":[
-                {
-                    "source_lang": "ja",
-                    "target_lang": "en",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:KyotoUJServer",
-                    "dictionary_flag": 1,
-                    "bind":[
-                        {"bind_type": 3, "bind_value":"VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3, "bind_value":"YMCCommunityDictionary"},
-                        {"bind_type": 3, "bind_value":"YMCViet Activity Dictionary"},
-                        {"bind_type": 9, "bind_value":"Mecab"}
-                    ]
-                }
-            ]
-        },
-        {
-            "source_lang": "en",
-            "target_lang": "ja",
-            "exec":[
-                {
-                    "source_lang": "en",
-                    "target_lang": "ja",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:KyotoUJServer",
-                    "dictionary_flag": 1,
-                    "bind":[
-                        {"bind_type": 3, "bind_value": "VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3, "bind_value": "YMCCommunityDictionary"},
-                        {"bind_type": 3, "bind_value": "YMCViet Activity Dictionary"},
-                        {"bind_type": 9, "bind_value": "TreeTagger"}
-                    ]
-                }
-            ]
-        },
-        {
-            "source_lang": "ja",
-            "target_lang": "vi",
-            "exec": [
-                {
-                    "source_lang": "ja",
-                    "target_lang": "en",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:KyotoUJServer",
-                    "dictionary_flag": 1,
-                    "bind": [
-                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
-                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
-                        {"bind_type": 9,"bind_value": "Mecab"}
-                    ]
+            "sourceLang": "ja",
+            "targetLang": "en",
+            "serviceId": "kyoto1.langrid:KyotoUJServer",
+            "serviceType": "Translation",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
                 },
-                {
-                    "source_lang": "en",
-                    "target_lang": "vi",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:GoogleTranslate",
-                    "dictionary_flag": 1,
-                    "bind": [
-                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
-                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
-                        {"bind_type": 9,"bind_value": "TreeTagger"}
-                    ]
-                }
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:Mecab"}
             ]
         },
         {
-            "source_lang": "vi",
-            "target_lang": "ja",
-            "exec": [
-                {
-                    "source_lang": "vi",
-                    "target_lang": "en",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:GoogleTranslate",
-                    "dictionary_flag": 1,
-                    "bind": [
-                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
-                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
-                        {"bind_type": 9,"bind_value": "VLSPPOSTaggerService"}
-                    ]
+            "sourceLang": "en",
+            "targetLang": "ja",
+            "serviceId": "kyoto1.langrid:KyotoUJServer",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
                 },
-                {
-                    "source_lang": "en",
-                    "target_lang": "ja",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:KyotoUJServer",
-                    "dictionary_flag": 1,
-                    "bind": [
-                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
-                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
-                        {"bind_type": 9,"bind_value": "TreeTagger"}
-                    ]
-                }
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:TreeTagger"}
             ]
         },
         {
-            "source_lang": "en",
-            "target_lang": "vi",
-            "exec": [
-                {
-                    "source_lang": "en",
-                    "target_lang": "vi",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:GoogleTranslate",
-                    "dictionary_flag": 1,
-                    "bind": [
-                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
-                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
-                        {"bind_type": 9,"bind_value": "TreeTagger"}
-                    ]
-                }
+            "sourceLang": "ja",
+            "targetLang": "vi",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:Mecab"}
             ]
         },
         {
-            "source_lang": "vi",
-            "target_lang": "en",
-            "exec": [
-                {
-                    "source_lang": "vi",
-                    "target_lang": "en",
-                    "service_type": "0",
-                    "service_id": "kyoto1.langrid:GoogleTranslate",
-                    "dictionary_flag": 1,
-                    "bind": [
-                        {"bind_type": 3,"bind_value": "VEJ Linh Rice Dictionary"},
-                        {"bind_type": 3,"bind_value": "YMCCommunityDictionary"},
-                        {"bind_type": 3,"bind_value": "YMCViet Activity Dictionary"},
-                        {"bind_type": 9,"bind_value": "VLSPPOSTaggerService"}
-                    ]
-                }
+            "sourceLang": "vi",
+            "targetLang": "ja",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:VLSPPOSTaggerService"}
+            ]
+        },
+        {
+            "sourceLang": "en",
+            "targetLang": "vi",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:TreeTagger"}
+            ]
+        },
+        {
+            "sourceLang": "vi",
+            "targetLang": "en",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:VLSPPOSTaggerService"}
             ]
         }
     ]
