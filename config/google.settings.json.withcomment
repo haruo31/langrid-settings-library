@@ -1,0 +1,35 @@
+{
+    /*
+      type: [langrid|google]
+      設定ファイルの種類を表します。 以下の2値が指定できます。
+      'langrid': 言語グリッドサービスの設定を表す
+      'google' : Google 翻訳サービスの設定を表す
+
+      この値によって、それ以降の設定の様式が変わります。
+      この設定ファイルではgoogleを指定した場合の様式を示します。
+    */
+    "type": "google",
+    /*
+      url: <Service url>
+      Google翻訳APIのURLを表します。
+     */
+    "url": "https://www.googleapis.com/language/translate/v2",
+    /*
+      apiKey: <apiKey>
+      Google翻訳APIのAPIキーを表します。
+     */
+    "apiKey": "key",
+    /*
+      supportedLanguages: [array of language codes]
+      Google翻訳が対応する言語コードの配列を表します。
+     */
+    "supportedLanguages":
+        ["af","ar","az","be","bg","bn","bs","ca","ceb","cs",
+        "cy","da","de","el","en","eo","es","et","eu","fa",
+        "fi","fr","ga","gl","gu","hi","hmn","hr","ht","hu",
+        "id","is","it","iw","ja","jw","ka","km","kn","ko",
+        "la","lo","lt","lv","mk","mr","ms","mt","nl","no",
+        "pl","pt","ro","ru","sk","sl","sq","sr","sv","sw",
+        "ta","te","th","tl","tr","uk","ur","vi","yi","zh",
+        "zh-TW"]
+}

@@ -1,0 +1,324 @@
+{
+    /*
+      type: [langrid|google]
+      設定ファイルの種類を表します。 以下の2値が指定できます。
+      'langrid': 言語グリッドサービスの設定を表す
+      'google' : Google 翻訳サービスの設定を表す
+
+      この値によって、それ以降の設定の様式が変わります。
+      この設定ファイルではlangridを指定した場合の様式を示します。
+    */
+    "type": "langrid",
+    /*
+      compositeServices: { "translation":
+                           { "serviceId": <Service ID>,
+                             "translationBinds": [<Binding name>, ...]},
+                           "backTranslation": ... }
+
+      複合サービスに対応するサービスIDを表します。
+      translationは翻訳、backTranslationは折り返し翻訳をするときに指定されるべき
+      複合サービスの名称が変わった場合にしか修正する必要が無いので、
+      固定文字列を設定しておいて問題ありません。
+    */
+    "compositeServices": {
+        "translation": {
+            "serviceId":
+            "kyoto1.langrid:TranslationCombinedWithBilingualDictionaryWithLongestMatchSearch",
+            "translationBinds": ["TranslationPL"]
+        },
+        "backTranslation": {
+            "serviceId": "kyoto1.langrid:BackTranslationCombinedWithBilingualDictionaryWithLongestMatchSearch",
+            "translationBinds": ["ForwardTranslationPL", "BackwardTranslationPL"]
+        }
+    },
+
+    /*
+      user: <User ID>
+      言語グリッドの認証ユーザIDを表します。
+     */
+    "user": "pangaea",
+
+    /*
+      password: <Password>
+      言語グリッドの認証パスワードを表します。
+     */
+    "password": "password",
+
+    /*
+      uri: <uri like String>
+      言語グリッドサービスへのuriを表します。
+      サービスIDを埋め込みたい部分に{service_id}と記述することで、
+      設定マネージャがその部分を適切なサービスIDに置換して翻訳を実行します。
+      この設定は固定文字列として問題ないと思います。
+     */
+    "uri": "http://langrid.org/service_manager/wsdl/{service_id}",
+
+    /*
+      paths: <Array of Path settings>
+      全体の翻訳パス設定を表します。
+      複数の翻訳パスの設定を配列として表します。
+      翻訳元言語(sourceLang)と翻訳先言語(targetLang)の二値を配列から検索し、
+      一致した設定を利用して翻訳を実行します。
+      順序は制御には関係がないので、自由に調整して構いません。
+      sourceLangとtargetLangの値が一致する翻訳パス設定が存在した場合は、
+      実装上は順序が先のものが優先されるようになっていますが、
+      sourceLangとtargetLangの両方でユニークになるようにしてください。
+      翻訳パスの詳細設定に関しては後述します。
+      ※ 今の実装では翻訳元言語、翻訳先言語の両方を個別に指定しているので、
+        複数の翻訳語に対応しているサービス(google翻訳などは50を越える)を
+        網羅する翻訳パス設定を作成する場合、順列の計算式に従い組合せ数が
+        膨大になります。50の場合は2450。
+     */
+    "paths": [
+        /*
+          翻訳パス設定
+        */
+        {
+            /*
+              sourceLang: <ISO 639-1 language code>
+              翻訳元の言語を表します。
+            */
+            "sourceLang": "ja",
+
+            /*
+              targetLang: <ISO 639-1 language code>
+              翻訳先の言語を表します。
+            */
+            "targetLang": "en",
+
+            /*
+              serviceId: <Langrid service ID>
+              この翻訳パスで使われる翻訳サービスのIDを表します。
+            */
+            "serviceId": "kyoto1.langrid:KyotoUJServer",
+
+            /*
+              serviceType: <Service Type>
+              上記翻訳パス設定で使われるサービスのタイプを表します。
+              現状"Translation"の文字列固定で問題ありません。
+            */
+            "serviceType": "Translation",
+
+            /*
+              optionalBinds: <Array of Binding>
+              翻訳サービスに連携させる全サービスを示す配列です。
+              参考: http://langrid.org/developer/jp/phplibrary_tutorial.html#sec_composite
+            */
+            "optionalBinds":[
+
+                /*
+                   invocationName: <binding name>
+                   serviceId: <service ID>
+                   children: [Array of Binding]
+                   バインド名、バインドするサービスID、さらに子があれば
+                   子のバインディングを表します。
+                   利用する複合サービスが翻訳サービスのみなので、
+                   invocationNameはそれぞれ固定になります。
+                 */
+                {/*
+                   BilingualDictionaryWithLongestMatchSearchPL
+                   辞書連携翻訳での連携させる辞書を表します。
+                   サービスID ...CrossSearchは複数の辞書を横断して
+                   語を検索するための複合サービスで、辞書連携翻訳から
+                   入れ子のように実行されます。
+                 */
+                 "invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     /*
+                       BilingualDictionaryWithLongestMatchCrossSearchPL1
+                       検索対象の1番目の辞書を表します。
+                       serviceIdに指定された辞書サービスが連携されます。
+                       最大5の辞書が指定可能です。
+                     */
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1.langrid:YMCRiceDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":"http://haruo31:FlwXpGet@langrid.org/tools/teampangaea/modules/dictionary/services/invoker/billingualdictionary.php?serviceId=PangaeaCommunityDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                /*
+                  MorphologicalAnalysisPL
+                  翻訳時に使われる形態素解析サービスを表します。
+                */
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:Mecab"}
+            ]
+        },
+
+        /* 以下、上記と同じ様式で必要な分だけ翻訳パスの定義が続きます */
+        {
+            "sourceLang": "en",
+            "targetLang": "ja",
+            "serviceId": "kyoto1.langrid:KyotoUJServer",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1.langrid:YMCRiceDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":"http://haruo31:FlwXpGet@langrid.org/tools/teampangaea/modules/dictionary/services/invoker/billingualdictionary.php?serviceId=PangaeaCommunityDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:TreeTagger"}
+            ]
+        },
+        {
+            "sourceLang": "ja",
+            "targetLang": "vi",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1.langrid:YMCRiceDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":"http://haruo31:FlwXpGet@langrid.org/tools/teampangaea/modules/dictionary/services/invoker/billingualdictionary.php?serviceId=PangaeaCommunityDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:Mecab"}
+            ]
+        },
+        {
+            "sourceLang": "vi",
+            "targetLang": "ja",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:VLSPPOSTaggerService"}
+            ]
+        },
+        {
+            "sourceLang": "en",
+            "targetLang": "vi",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:TreeTagger"}
+            ]
+        },
+        {
+            "sourceLang": "vi",
+            "targetLang": "en",
+            "serviceType": "Translation",
+            "serviceId": "kyoto1.langrid:GoogleTranslate",
+            "optionalBinds":[
+                {"invocationName":
+                 "BilingualDictionaryWithLongestMatchSearchPL",
+                 "serviceId":
+                 "kyoto1.langrid:BilingualDictionaryWithLongestMatchCrossSearch",
+                 "children":[
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL1",
+                      "serviceId":"kyoto1:langrid:PangaeaDictionary"},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL2",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL3",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL4",
+                      "serviceId":""},
+                     {"invocationName":
+                      "BilingualDictionaryWithLongestMatchCrossSearchPL5",
+                      "serviceId":""}
+                 ]
+                },
+                {"invocationName":"MorphologicalAnalysisPL",
+                 "serviceId":"kyoto1.langrid:VLSPPOSTaggerService"}
+            ]
+        }
+    ]
+}
