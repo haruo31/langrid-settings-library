@@ -77,8 +77,6 @@ class LangridTranslator implements API\Translator {
         }
         $this->writeAccessInfo($client, $binds);
 
-        print_r($client);
-
         return $client->translate(\Language::get($from), \Language::get($to), $text, $dict, \Language::get($to));
     }
 

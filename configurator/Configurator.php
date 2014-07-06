@@ -34,7 +34,10 @@ abstract class Configurator {
         return $conf;
     }
 
-    public function getClient() {
-        return Cli\ClientFactory::getClient($this->config->getSetting($this->getAvailableSetting()));
+    public function getClient($setting = null) {
+        if (! $setting) {
+            return Cli\ClientFactory::getClient($this->config->getSetting($this->getAvailableSetting()));
+        }
+        return Cli\ClientFactory::getClient($this->config->getSetting($setting));
     }
 }

@@ -11,7 +11,7 @@ class GoogleTranslator implements API\Translator {
         $this->setting = $setting;
     }
 
-    public function translate($from, $to, $text) {
+    public function translate($from, $to, $text, $dictionary = array()) {
 
         $res = json_decode($this->sendRequest($from, $to, $text), true);
         if (@$res['error']) {
@@ -21,7 +21,7 @@ class GoogleTranslator implements API\Translator {
         return @$res['data']['translations']['translatedText'];
     }
 
-    protected function sendRequest($from, $to, $text, $dict = array()) {
+    protected function sendRequest($from, $to, $text) {
         // see https://developers.google.com/translate/v2/using_rest
         $s = curl_init();
 
@@ -72,7 +72,7 @@ class GoogleTranslator implements API\Translator {
         return implode('&', $r);
     }
 
-    public function backTranslate($from, $to, $text, $dict = array()) {
+    public function backTranslate($from, $to, $text, $dictionary = array()) {
         $res = new stdObject();
 
         $res->intermediate = $this->translate($from, $to, $text);
