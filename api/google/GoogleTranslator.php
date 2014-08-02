@@ -18,7 +18,7 @@ class GoogleTranslator implements API\Translator {
             throw new API\Exception\ApiException($res['error']['message']);
         }
 
-        return @$res['data']['translations']['translatedText'];
+        return @$res['data']['translations'][0]['translatedText'];
     }
 
     protected function sendRequest($from, $to, $text) {
